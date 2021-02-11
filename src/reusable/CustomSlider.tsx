@@ -2,7 +2,7 @@ import React from "react";
 import Carousel from "react-material-ui-carousel";
 import { Paper, Button } from "@material-ui/core";
 // @ts-ignore
-import { makeStyles, Theme } from "@material-ui/core";
+import { makeStyles, Theme,Grid,Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -11,13 +11,27 @@ const useStyles = makeStyles((theme: Theme) => ({
   imagePoster: {
     height: "350px",
   },
+  posterCard:{
+    maxWidth:"270px",
+  },
+  heading:{
+    color:"#1e212d",
+    fontFamily:"Oxygen",
+    fontWeight:"bolder",
+    fontSize:"1.7rem"
+  } ,
+  posterTitle:{
+    color:"#1e212d",
+    fontWeight:800,
+    fontSize:"0.9rem",
+    float:"left"
+  }
 }));
 
 export const CustomSlider: React.FC<any> = (props) => {
   const { items } = props;
-console.log(items)
   return (
-    <Carousel interval={15000} animation="slide">
+    <Carousel interval={35000} animation="slide" indicators={false}>
       {
         //@ts-ignore
         items.map((item, i) => (
@@ -31,20 +45,43 @@ console.log(items)
 function Item(props: any) {
   const classes = useStyles();
   return (
-    <Paper className={classes.root}>
-      {props.item.map((one: any) => (
-        <div>
-          <img
-            className={classes.imagePoster}
-            src={`https://image.tmdb.org/t/p/w500/${one.poster_path}`}
-            alt="${props.item.title}"
-          ></img>
-          <h2>{one.title}</h2>
-          {/* <p>{one.overview}</p> */}
+    <div className={classes.root}>
+      <Typography variant="h5" className={classes.heading}>
+        Trending
+      </Typography>
+      <Grid container spacing={5} style={{margin:"0px auto"}}>
+        {props.item.map((one: any) => (
+          <Grid item className={classes.posterCard}>
+            <img
+              className={classes.imagePoster}
+              src={`https://image.tmdb.org/t/p/w500/${one.poster_path}`}
+              alt="${props.item.title}"
+            ></img>
+            {
+              one.hasOwnProperty('title')?(
+                <div style={{overflow: "hidden", textOverflow: "ellipsis", }}> 
+                {/* @ts-ignore */}
+                  <Typography nowrap className={classes.posterTitle}>
+                  {one.title}
+                  </Typography>
+              </div>
+                // <h3>{one.title}</h3>
+              ):(
+                <div style={{overflow: "hidden", textOverflow: "ellipsis", }}> 
+                {/* @ts-ignore */}
+                  <Typography nowrap className={classes.posterTitle}>
+                  {one.name}
+                  </Typography>
+              </div>
+              )
+            }
+            
+            {/* <p>{one.overview}</p> */}
 
-          <Button className="CheckButton">Check it out!</Button>
-        </div>
-      ))}
-    </Paper>
+            <Button className="CheckButton">Check it out!</Button>
+          </Grid>
+        ))}
+      </Grid>
+    </div>
   );
 }
