@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const Header: React.FC<{}> = () => {
   const classes = useStyles();
   return (
-    <AppBar position="static" className={classes.root}>
+    <AppBar position="sticky" className={classes.root}>
       <Toolbar>
         <Grid container alignItems="center">
           <Grid item>
